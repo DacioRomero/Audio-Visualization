@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4d2f52538ebd79847ab79f27ab75ae94
+timeCreated: 1451474303
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - prismPrefab: {fileID: 151746, guid: 5b277d70946dce049b5f45abebba7119, type: 2}
+  - spherePrefab: {fileID: 120614, guid: 2cca99f461c113044890fcbe36ca6260, type: 2}
+  - particlePrefab: {fileID: 195072, guid: 3c0d3b0fbf2e841479a16f575774d88f, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
