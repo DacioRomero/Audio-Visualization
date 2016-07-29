@@ -7,12 +7,16 @@ public class TrackShuffle : MonoBehaviour
 {
     [SerializeField]
     private string trackDirectory = "Tracks";
-    private AudioClip[] tracks;
-    private int[] shuffledList;
-    private int currentTrack;
-    private AudioSource audioSource;
-    private int timeSamples;
+
     private bool paused;
+    private int currentTrack;
+    private int timeSamples;
+
+    private int[] shuffledList;
+    private AudioClip[] tracks;
+
+    private AudioSource audioSource;
+
     public event PlayCurrentTrackListener OnPlayCurrentTrack;
 
     private void Awake()

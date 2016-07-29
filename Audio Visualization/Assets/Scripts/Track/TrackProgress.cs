@@ -13,12 +13,12 @@ public class TrackProgress : MonoBehaviour
         {
             if (audioSource.clip)
             {
-                rectTransform.sizeDelta = new Vector2(((float)audioSource.timeSamples / audioSource.clip.samples) * Screen.width, 10);
+                rectTransform.localScale = new Vector3((float)audioSource.timeSamples / audioSource.clip.samples, 1, 1);
             }
 
             else
             {
-                rectTransform.sizeDelta = Vector2.zero;
+                rectTransform.localScale = Vector3.zero;
             }
         }
     }

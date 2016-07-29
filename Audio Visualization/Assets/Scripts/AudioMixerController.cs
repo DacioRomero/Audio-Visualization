@@ -5,15 +5,15 @@ using FireClaw.Audio;
 public class AudioMixerController : MonoBehaviour
 {
     [SerializeField]
-    private AudioMixer mixer;
+    private AudioMixer audioMixer;
 
     public void SetMasterVolume(float volume)
     {
-        mixer.SetFloat("masterVol", AudioUnitConversions.RelToDB(volume));
+        audioMixer.SetFloat("masterVol", Mathf.Clamp(AudioUnitConversions.RelToDB(volume), float.MinValue, float.MaxValue));
     }
 
     public void SetMusicVolume(float volume)
     {
-        mixer.SetFloat("musicVol", Mathf.Clamp(AudioUnitConversions.RelToDB(volume), float.MinValue, float.MaxValue));
+        audioMixer.SetFloat("musicVol", Mathf.Clamp(AudioUnitConversions.RelToDB(volume), float.MinValue, float.MaxValue));
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 public class Gravitate : MonoBehaviour
 {
     public Vector3 position = Vector3.zero;
+
     private Rigidbody rigidbody;
 
     private void Awake()
@@ -14,7 +15,7 @@ public class Gravitate : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rigidbody.AddForce((transform.position - position).normalized * Physics.gravity.y, ForceMode.Acceleration);
+        rigidbody.AddForce((transform.position - position).normalized * Physics.gravity.y * 4, ForceMode.Acceleration);
         rigidbody.mass = transform.localScale.x;
     }
 }

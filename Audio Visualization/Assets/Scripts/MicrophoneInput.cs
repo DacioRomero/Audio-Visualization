@@ -41,7 +41,9 @@ public class MicrophoneInput : MonoBehaviour
     {
         audioSource.loop = true;
         audioSource.clip = Microphone.Start(currentDevice, true, 5, AudioSettings.outputSampleRate);
-        while (Microphone.GetPosition(currentDevice) == 0) { }
+
+        while (Microphone.GetPosition(currentDevice) == 0) ;
+
         audioSource.Play();
     }
 
@@ -51,6 +53,7 @@ public class MicrophoneInput : MonoBehaviour
         {
             Microphone.End(currentDevice);
         }
+
         audioSource.loop = false;
         audioSource.Stop();
         audioSource.clip = null;

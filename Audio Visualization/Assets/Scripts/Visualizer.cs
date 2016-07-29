@@ -40,14 +40,17 @@ public class Visualizer : MonoBehaviour
     private void Start()
     {
         int transformCount = Mathf.CeilToInt((Mathf.Log(AudioSettings.outputSampleRate / 880, _2root12) + 58) / noteStepsPerCube);
+
         transforms = new Transform[transformCount];
         materials = new Material[transformCount];
+
         Vector3 right = Vector3.right * transformCount;
         Vector3 gravPos = Vector3.up * Camera.main.transform.position.y;
 
         for (short i = 0; i < transformCount; i++)
         {
             Color transformColor = Color.Lerp(Color.blue, Color.red, (float)i / (transformCount - 1));
+
             switch (mode)
             {
                 case Modes.Prisms:
@@ -55,30 +58,39 @@ public class Visualizer : MonoBehaviour
                     Destroy(transforms[i].gameObject.GetComponent<Collider>());
                     transforms[i].position = Quaternion.Euler(0, ((float)i / transformCount) * 360, 0) * right;
                     transforms[i].name = "Prism " + (i + 1);
+
                     Renderer rend = transforms[i].GetComponent<Renderer>();
                     rend.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
                     rend.receiveShadows = false;
+
                     materials[i] = rend.material;
                     materials[i].EnableKeyword("_EMISSION");
                     materials[i].color = transformColor;
+
                     break;
                 case Modes.Spheres:
                     transforms[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere).transform;
                     transforms[i].position = Random.insideUnitSphere * scale;
                     transforms[i].name = "Sphere " + (i + 1);
+
                     Gravitate grav = transforms[i].gameObject.AddComponent<Gravitate>();
                     grav.position = gravPos;
+
                     materials[i] = transforms[i].GetComponent<Renderer>().material;
                     materials[i].EnableKeyword("_EMISSION");
                     materials[i].color = transformColor;
+
                     break;
                 case Modes.Particles:
                     transforms[i] = (Instantiate(particlePrefab, Quaternion.Euler(0, ((float)i / transformCount) * 360, 0) * right, particlePrefab.transform.rotation) as GameObject).transform;
                     transforms[i].name = "Particle " + (i + 1);
+
                     transformColor.a = 0;
                     transforms[i].GetComponent<ParticleSystem>().startColor = transformColor;
+
                     break;
             }
+
             transforms[i].parent = transform;
         }
     }
@@ -93,7 +105,7 @@ public class Visualizer : MonoBehaviour
         {
             loHz = hiHz;
             hiHz = 440 * Mathf.Pow(_2root12, (i + 1) * noteStepsPerCube - 58);
-            float volume = GetRangeVolume(ref samples, loHz, hiHz) * 8;
+            float volume = GetRangeVolume(ref samples, loHz, hiHz) * 4;
 
             if (mode == Modes.Prisms)
             {
@@ -129,7 +141,8 @@ public class Visualizer : MonoBehaviour
     public void SetMode(int _mode)
     {
         mode = (Modes)_mode;
-        for(short i = 0; i < transforms.Length; i++)
+
+        for (short i = 0; i < transforms.Length; i++)
         {
             Destroy(transforms[i].gameObject);
         }
