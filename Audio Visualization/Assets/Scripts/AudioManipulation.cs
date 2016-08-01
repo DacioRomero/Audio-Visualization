@@ -6,12 +6,12 @@ namespace FireClaw.Audio
     {
         public static float DBToRel(float dB)
         {
-            return Mathf.Pow(10, dB / 20);
+            return Mathf.Pow(10, dB / 10);
         }
 
         public static float RelToDB(float rel)
         {
-            return 20 * Mathf.Log10(rel);
+            return 10 * Mathf.Log10(rel);
         }
 
         public static float[] DBsToRels(float[] dBs)

@@ -58,7 +58,7 @@ public class Oscilloscope : MonoBehaviour
             //pixels[vertical * size + horizontal] += Color.green * degradationCurve.Evaluate((i + 1f) / samples);
 
             DrawLine(pixels, (int)coordinatesLast.x, (int)coordinatesLast.y, (int)coordinates.x, (int)coordinates.y,
-                     Color.green * distanceDegredation.Evaluate(-Vector2.Distance(coordinates, coordinatesLast) / (resolution * _sqrt2)) * sampleDegredation.Evaluate((i + 1f) / samples));
+                     distanceDegredation.Evaluate(Vector2.Distance(coordinates, coordinatesLast) / (resolution * _sqrt2)) * sampleDegredation.Evaluate((i + 1f) / samples));
 
             coordinatesLast = coordinates;
         }
@@ -70,7 +70,7 @@ public class Oscilloscope : MonoBehaviour
     }
 
     //Modifed version of http://wiki.unity3d.com/index.php?title=TextureDrawLine
-    void DrawLine(Color[] pixels, int x1, int y1, int x2, int y2, Color col)
+    void DrawLine(Color[] pixels, int x1, int y1, int x2, int y2, float intensity)
     {
         int dy = y2 - y1;
         int dx = x2 - x1;
@@ -85,7 +85,7 @@ public class Oscilloscope : MonoBehaviour
 
         float fraction = 0;
 
-        IncreasePixel(pixels, resolution, x1, y1, col);
+        IncreasePixel(pixels, y1 * resolution + x1, intensity);
         if (dx > dy)
         {
             fraction = dy - (dx >> 1);
@@ -98,7 +98,7 @@ public class Oscilloscope : MonoBehaviour
                 }
                 x1 += stepx;
                 fraction += dy;
-                IncreasePixel(pixels, resolution, x1, y1, col);
+                IncreasePixel(pixels, y1 * resolution + x1, intensity);
             }
         }
         else
@@ -113,13 +113,20 @@ public class Oscilloscope : MonoBehaviour
                 }
                 y1 += stepy;
                 fraction += dx;
-                IncreasePixel(pixels, resolution, x1, y1, col);
+                IncreasePixel(pixels, y1 * resolution + x1, intensity);
             }
         }
     }
 
-    void IncreasePixel(Color[] pixels, int height, int x, int y, Color color)
+    void IncreasePixel(Color[] pixels, int indice, float intensity)
     {
-        pixels[y * height + x] += color;
+        pixels[indice].g += intensity;
+
+        pixels[indice].r += Mathf.Clamp(intensity - 1, 0, float.MaxValue) / 2;
+        pixels[indice].b += Mathf.Clamp(intensity - 1, 0, float.MaxValue) / 2;
+
+        pixels[indice].r = Mathf.Clamp01(pixels[indice].r);
+        pixels[indice].g = Mathf.Clamp01(pixels[indice].g);
+        pixels[indice].b = Mathf.Clamp01(pixels[indice].b);
     }
 }

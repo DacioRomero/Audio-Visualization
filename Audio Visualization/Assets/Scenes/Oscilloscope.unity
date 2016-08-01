@@ -1295,21 +1295,21 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - time: 0
-      value: 0
-      inSlope: 4
-      outSlope: -0
-      tangentMode: 21
-    - time: 0.875
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 0.1
       value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
     - time: 1
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
-    m_PreInfinity: 1
+    m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
 --- !u!82 &1188991203
