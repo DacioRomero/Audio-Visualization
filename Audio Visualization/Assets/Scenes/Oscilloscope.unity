@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28f60ece2161add4983188c72ae6b034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixer: {fileID: 0}
+  audioMixer: {fileID: 24100000, guid: d8e1817a4da0ea54db3ef468e05a2a2a, type: 2}
 --- !u!4 &253532313
 Transform:
   m_ObjectHideFlags: 0
@@ -989,7 +989,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 253532312}
-        m_MethodName: SetMasterVolume
+        m_MethodName: SetMusicVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1275,16 +1275,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5d70767a5de8854eb689eeae32f76ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  degradationCurve:
+  sampleDegredation:
     serializedVersion: 2
     m_Curve:
     - time: 0
       value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+    - time: 1
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
-    - time: 0.5
-      value: 1
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  distanceDegredation:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 4
+      outSlope: -0
+      tangentMode: 21
+    - time: 0.875
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1293,7 +1309,7 @@ MonoBehaviour:
       inSlope: 0
       outSlope: 0
       tangentMode: 0
-    m_PreInfinity: 2
+    m_PreInfinity: 1
     m_PostInfinity: 2
     m_RotationOrder: 0
 --- !u!82 &1188991203
@@ -1306,7 +1322,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300346, guid: d8e1817a4da0ea54db3ef468e05a2a2a,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 065e7005d2b4e9943b32c927e9dbfdbf, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -1428,7 +1444,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a33a5e562d26fc46b2299a942414ab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackDirectory: oscilloscope audio sauce
+  tracks:
+  - {fileID: 8300000, guid: 873016317d80b994397a3f78844a9199, type: 3}
+  - {fileID: 8300000, guid: 1b9b4f714daf9cc4481ee4eca8508bf9, type: 3}
+  - {fileID: 8300000, guid: 0dedde72a688c924f88325c7c3be7cf7, type: 3}
+  - {fileID: 8300000, guid: 065e7005d2b4e9943b32c927e9dbfdbf, type: 3}
+  - {fileID: 8300000, guid: 71bcc5f62aa0273468b5f6cb6b470ffe, type: 3}
+  - {fileID: 8300000, guid: c78dd568772eab04aba2e820b1eb8a64, type: 3}
+  - {fileID: 8300000, guid: dd677a3a55e3fca468ea98abb7e54322, type: 3}
+  - {fileID: 8300000, guid: 9c6f736b62bcd9e4cb7ba8e17c0bf94c, type: 3}
+  - {fileID: 8300000, guid: c2a13b3ca1e113d4fad3ecf535401c60, type: 3}
 --- !u!1 &1649778999
 GameObject:
   m_ObjectHideFlags: 0

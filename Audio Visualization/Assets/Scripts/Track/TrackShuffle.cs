@@ -5,24 +5,20 @@ public delegate void PlayCurrentTrackListener(string text);
 [RequireComponent(typeof(AudioSource))]
 public class TrackShuffle : MonoBehaviour
 {
-    [SerializeField]
-    private string trackDirectory = "Tracks";
-
     private bool paused;
     private int currentTrack;
     private int timeSamples;
 
     private int[] shuffledList;
+    [SerializeField]
+
     private AudioClip[] tracks;
-
     private AudioSource audioSource;
-
     public event PlayCurrentTrackListener OnPlayCurrentTrack;
 
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-        tracks = Resources.LoadAll<AudioClip>(trackDirectory);
         Shuffle();
     }
 

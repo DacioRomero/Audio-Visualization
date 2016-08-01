@@ -10,7 +10,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: FireClawGames
-  productName: Audio Visualization
+  productName: Oscilloscope
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_ShowUnitySplashScreen: 1
@@ -24,7 +24,7 @@ PlayerSettings:
   m_ActiveColorSpace: 0
   m_MTRendering: 1
   m_MobileMTRendering: 0
-  m_Stereoscopic3D: 1
+  m_Stereoscopic3D: 0
   iosShowActivityIndicatorOnLoading: -1
   androidShowActivityIndicatorOnLoading: -1
   iosAppInBackgroundBehavior: 0
@@ -40,14 +40,14 @@ PlayerSettings:
   defaultIsFullScreen: 1
   defaultIsNativeResolution: 1
   runInBackground: 1
-  captureSingleScreen: 1
+  captureSingleScreen: 0
   Override IPod Music: 0
   Prepare IOS For Recording: 0
   submitAnalytics: 1
   usePlayerLog: 1
   bakeCollisionMeshes: 0
-  forceSingleInstance: 1
-  resizableWindow: 1
+  forceSingleInstance: 0
+  resizableWindow: 0
   useMacAppStoreValidation: 0
   gpuSkinning: 0
   xboxPIXTextureCapture: 0
@@ -91,7 +91,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleIdentifier: com.Company.ProductName
+  bundleIdentifier: com.fireclawgames.oscilloscope
   bundleVersion: 1.0
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
@@ -112,8 +112,8 @@ PlayerSettings:
   ForceSDCardPermission: 0
   CreateWallpaper: 0
   APKExpansionFiles: 0
-  preloadShaders: 1
-  StripUnusedMeshComponents: 1
+  preloadShaders: 0
+  StripUnusedMeshComponents: 0
   VertexChannelCompressionMask:
     serializedVersion: 2
     m_Bits: 238
@@ -172,13 +172,12 @@ PlayerSettings:
     height: 180
     banner: {fileID: 0}
   androidGamepadSupportLevel: 0
-  resolutionDialogBanner: {fileID: 2800000, guid: 26e26626c919a2341b3f18a813f9683a,
-    type: 3}
+  resolutionDialogBanner: {fileID: 0}
   m_BuildTargetIcons:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 26e26626c919a2341b3f18a813f9683a, type: 3}
+      m_Icon: {fileID: 0}
       m_Width: 128
       m_Height: 128
   m_BuildTargetBatching: []
@@ -342,7 +341,7 @@ PlayerSettings:
   spritePackerPolicy: 
   scriptingDefineSymbols:
     1: CROSS_PLATFORM_INPUT
-    2: CROSS_PLATFORM_INPUT
+    2: 
     4: CROSS_PLATFORM_INPUT;MOBILE_INPUT
     7: CROSS_PLATFORM_INPUT;MOBILE_INPUT
     14: MOBILE_INPUT
@@ -350,14 +349,14 @@ PlayerSettings:
     16: CROSS_PLATFORM_INPUT;MOBILE_INPUT
     17: MOBILE_INPUT
     20: MOBILE_INPUT
-  metroPackageName: Audio_Visualization_Recode
+  metroPackageName: Audio Visualization
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: Audio_Visualization_Recode
+  metroApplicationDescription: Audio Visualization
   wsaImages: {}
   metroTileShortName: 
   metroCommandLineArgsFile: 
@@ -367,9 +366,10 @@ PlayerSettings:
   metroWideTileShowName: 0
   metroDefaultTileSize: 1
   metroTileForegroundText: 1
-  metroTileBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
-  metroSplashScreenBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
-  metroSplashScreenUseBackgroundColor: 0
+  metroTileBackgroundColor: {r: 0.13333334, g: 0.17254902, b: 0.21568628, a: 0}
+  metroSplashScreenBackgroundColor: {r: 0.13333334, g: 0.17254902, b: 0.21568628,
+    a: 1}
+  metroSplashScreenUseBackgroundColor: 1
   platformCapabilities: {}
   metroFTAName: 
   metroFTAFileTypes: []

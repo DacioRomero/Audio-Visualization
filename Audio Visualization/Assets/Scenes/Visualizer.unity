@@ -2533,7 +2533,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a33a5e562d26fc46b2299a942414ab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackDirectory: Tracks
+  tracks:
+  - {fileID: 8300000, guid: 21c52f7082b3142419dbf55fbba7f13c, type: 3}
+  - {fileID: 8300000, guid: b0afe6f0c72754e419f1a455dd30d49c, type: 3}
+  - {fileID: 8300000, guid: 7e0bd391c0147d8409df5dc87bf60b38, type: 3}
+  - {fileID: 8300000, guid: 094db332507d2a74198c7da0232a6e47, type: 3}
+  - {fileID: 8300000, guid: e3bf5e737473a294fa32d366b88ea216, type: 3}
+  - {fileID: 8300000, guid: 253d0083645fd124885441c01b8ce179, type: 3}
+  - {fileID: 8300000, guid: a9d055245b2e21840b846cee1ac067a0, type: 3}
+  - {fileID: 8300000, guid: 448aea05d14dc2d48adad447ce9099b3, type: 3}
+  - {fileID: 8300000, guid: f7aa6e75572176d44bf44bd1eeaea4f4, type: 3}
+  - {fileID: 8300000, guid: c0f9f0858248f704793e86be80fc45a6, type: 3}
+  - {fileID: 8300000, guid: 77ad8485ce2473a48a0fdd46c8bb1d1b, type: 3}
+  - {fileID: 8300000, guid: b9ab9786cc895c444ad7e9bf04dc7e19, type: 3}
+  - {fileID: 8300000, guid: 2aa85af6095bad647930a4ecf940b2b2, type: 3}
+  - {fileID: 8300000, guid: 0545a368e48157946be68457d652cafa, type: 3}
+  - {fileID: 8300000, guid: 4eeb11884e7d536448048dd53d1c0012, type: 3}
+  - {fileID: 8300000, guid: cffac8c8ca3fc2d4ba6db4df19f52372, type: 3}
+  - {fileID: 8300000, guid: c2c16929c5480674cbb5c19c260513b4, type: 3}
+  - {fileID: 8300000, guid: 91bc7f392bae68e4b89bbd9f643f1b43, type: 3}
+  - {fileID: 8300000, guid: 7bffa40a6f85e5c47ae9da27e34dc9df, type: 3}
+  - {fileID: 8300000, guid: fa5cd74bba2b5d34da391c3a6b0ff8ef, type: 3}
+  - {fileID: 8300000, guid: 64cd811d540c45841a15673b4365b129, type: 3}
+  - {fileID: 8300000, guid: 939efd8da9b803f49956f32660618884, type: 3}
+  - {fileID: 8300000, guid: 3f52f4bdf87d9fb429635ea88c1ed3b8, type: 3}
+  - {fileID: 8300000, guid: 5b5ee30fe5e61e94b98fa8fc0f9fc5d8, type: 3}
 --- !u!1 &1199149112
 GameObject:
   m_ObjectHideFlags: 0
