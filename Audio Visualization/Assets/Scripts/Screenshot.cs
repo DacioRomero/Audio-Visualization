@@ -10,7 +10,7 @@ public class Screenshot : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            string path = System.IO.Path.GetDirectoryName(Application.dataPath) + "/Screenshots/";
+            string path = Path.GetDirectoryName(Application.dataPath) + "/Screenshots/";
             string fileName = System.DateTime.Now.ToFileTime() + ".png";
 
             if (!Directory.Exists(path))

@@ -118,15 +118,15 @@ public class Oscilloscope : MonoBehaviour
         }
     }
 
-    void IncreasePixel(Color[] pixels, int indice, float intensity)
+    void IncreasePixel(Color[] pixels, int index, float intensity)
     {
-        pixels[indice].g += intensity;
+        pixels[index].g += intensity;
 
-        pixels[indice].r += Mathf.Clamp(intensity - 1, 0, float.MaxValue) / 2;
-        pixels[indice].b += Mathf.Clamp(intensity - 1, 0, float.MaxValue) / 2;
+        pixels[index].r += Mathf.Clamp(intensity - 1, 0, float.MaxValue) / 2;
+        pixels[index].b += Mathf.Clamp(intensity - 1, 0, float.MaxValue) / 2;
 
-        pixels[indice].r = Mathf.Clamp01(pixels[indice].r);
-        pixels[indice].g = Mathf.Clamp01(pixels[indice].g);
-        pixels[indice].b = Mathf.Clamp01(pixels[indice].b);
+        pixels[index].r = Mathf.Clamp01(pixels[index].r);
+        pixels[index].g = Mathf.Clamp01(pixels[index].g);
+        pixels[index].b = Mathf.Clamp01(pixels[index].b);
     }
 }

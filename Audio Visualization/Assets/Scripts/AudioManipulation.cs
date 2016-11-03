@@ -6,12 +6,12 @@ namespace FireClaw.Audio
     {
         public static float DBToRel(float dB)
         {
-            return Mathf.Pow(10, dB / 10);
+            return Mathf.Pow(10, dB / 20);
         }
 
         public static float RelToDB(float rel)
         {
-            return 10 * Mathf.Log10(rel);
+            return 20 * Mathf.Log10(rel);
         }
 
         public static float[] DBsToRels(float[] dBs)
@@ -48,7 +48,14 @@ namespace FireClaw.Audio
 
         public static float AddDBs(float[] dBs)
         {
-            return AudioUnitConversions.RelToDB(AddRels(AudioUnitConversions.DBsToRels(dBs)));
+			float sum = 0;
+
+			for(int i = 0; i < dBs.Length; i++)
+			{
+				sum += Mathf.Pow(10, dBs[i] / 10);
+			}
+
+			return 10 * Mathf.Log10(sum);
         }
         
         public static float AddRels(float rel1, float rel2)
@@ -58,14 +65,7 @@ namespace FireClaw.Audio
 
         public static float AddRels(float[] rels)
         {
-            float sum = 0;
-
-            for (int i = 0; i < rels.Length; i++)
-            {
-                sum += rels[i];
-            }
-
-            return sum;
+			return AudioUnitConversions.DBToRel(AddDBs(AudioUnitConversions.RelsToDBs(rels)));
         }
     }
 }

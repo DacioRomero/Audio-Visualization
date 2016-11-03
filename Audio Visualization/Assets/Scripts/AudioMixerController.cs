@@ -9,11 +9,11 @@ public class AudioMixerController : MonoBehaviour
 
     public void SetMasterVolume(float volume)
     {
-        audioMixer.SetFloat("masterVol", Mathf.Clamp(AudioUnitConversions.RelToDB(volume), float.MinValue, float.MaxValue));
+        audioMixer.SetFloat("masterVol", Mathf.Clamp(AudioUnitConversions.RelToDB(volume), -80, 0));
     }
 
     public void SetMusicVolume(float volume)
     {
-        audioMixer.SetFloat("musicVol", Mathf.Clamp(AudioUnitConversions.RelToDB(volume), float.MinValue, float.MaxValue));
+        audioMixer.SetFloat("musicVol", Mathf.Clamp(AudioUnitConversions.RelToDB(volume), -80, 0));
     }
 }
