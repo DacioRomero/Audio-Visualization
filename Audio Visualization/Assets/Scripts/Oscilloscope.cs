@@ -14,7 +14,7 @@ public class Oscilloscope : MonoBehaviour
     private float[] rightSamples;
     private Color[] pixels;
 
-    private MeshRenderer renderer;
+    new private MeshRenderer renderer;
     private AudioSource audioSource;
     private Texture2D texture;
 

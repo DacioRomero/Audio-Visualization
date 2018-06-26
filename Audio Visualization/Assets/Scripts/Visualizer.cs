@@ -86,7 +86,8 @@ public class Visualizer : MonoBehaviour
                     transforms[i].name = "Particle " + (i + 1);
 
                     transformColor.a = 0;
-                    transforms[i].GetComponent<ParticleSystem>().startColor = transformColor;
+                    ParticleSystem.MainModule mainModule = transforms[i].GetComponent<ParticleSystem>().main;
+                    mainModule.startColor = transformColor;
 
                     break;
             }
@@ -126,9 +127,14 @@ public class Visualizer : MonoBehaviour
             else if (mode == Modes.Particles)
             {
                 ParticleSystem particleSystem = transforms[i].GetComponent<ParticleSystem>();
-                Color color = particleSystem.startColor;
-                color.a = Mathf.Lerp(color.a, volume * (particleSystem.startSpeed / particleSystem.emission.rate.constantMax), Time.deltaTime * (1 / smoothValue));
-                transforms[i].GetComponent<ParticleSystem>().startColor = color;
+                ParticleSystem.MainModule mainModule = particleSystem.main;
+                ParticleSystem.EmissionModule emissionModule = particleSystem.emission;
+
+                ParticleSystem.MinMaxGradient startColor = mainModule.startColor;
+                Color color = startColor.color;
+                color.a = Mathf.Lerp(color.a, volume * (mainModule.startSpeed.constant / emissionModule.rateOverTime.constantMax), Time.deltaTime * (1 / smoothValue));
+                startColor.color = color;
+                mainModule.startColor = startColor;
             }
 
             if (mode != Modes.Particles)

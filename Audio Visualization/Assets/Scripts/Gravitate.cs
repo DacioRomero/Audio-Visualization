@@ -5,7 +5,7 @@ public class Gravitate : MonoBehaviour
 {
     public Vector3 position = Vector3.zero;
 
-    private Rigidbody rigidbody;
+    new private Rigidbody rigidbody;
 
     private void Awake()
     {

@@ -8,7 +8,7 @@ public class CameraBackgroundToggle : MonoBehaviour
     [SerializeField]
     private Color colorFalse;
 
-    private Camera camera;
+    new private Camera camera;
 
     private void Awake()
     {

@@ -20,7 +20,7 @@ public class Screenshot : MonoBehaviour
 
             Debug.Log("Taking " + fileName + " at " + path);
 
-            Application.CaptureScreenshot(path + fileName, superSize);
+            ScreenCapture.CaptureScreenshot(path + fileName, superSize);
         }
     }
 }
