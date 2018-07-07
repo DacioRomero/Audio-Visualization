@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace FireClaw.Audio
+namespace AudioManipulation
 {
     public struct AudioUnitConversions
     {

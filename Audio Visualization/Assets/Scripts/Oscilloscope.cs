@@ -1,132 +1,68 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Oscilloscope : MonoBehaviour
+[DisallowMultipleComponent]
+public class Oscilloscope : ModeChanger
 {
-    [SerializeField]
-    private AnimationCurve sampleDegredation;
-    [SerializeField]
-    private AnimationCurve distanceDegredation;
+    [SerializeField] private Modes mode;
 
-    private int samples = 2048;
-    private int resolution;
+    private static int samples = 1024;
 
-    private float[] leftSamples;
-    private float[] rightSamples;
-    private Color[] pixels;
-
-    new private MeshRenderer renderer;
+    private LineRenderer lineRenderer;
     private AudioSource audioSource;
-    private Texture2D texture;
 
-    static float _sqrt2 = Mathf.Sqrt(2);
+    private enum Modes { Standard, LeftRightDeflection }
 
     private void Awake()
     {
-        leftSamples = new float[samples];
-        rightSamples = new float[samples];
-        pixels = new Color[resolution * resolution];
-
-        renderer = GetComponent<MeshRenderer>();
+        lineRenderer = GetComponent<LineRenderer>();
         audioSource = GetComponent<AudioSource>();
-        texture = new Texture2D(resolution, resolution);
-        texture.wrapMode = TextureWrapMode.Clamp;
-        texture.filterMode = FilterMode.Trilinear;
-        texture.anisoLevel = 16;
-
-        renderer.material.mainTexture = texture;
     }
 
     private void Update()
     {
-        if (Screen.height != resolution)
+        float[] samplesL = new float[samples];
+        float[] samplesR = new float[samples];
+
+        audioSource.GetOutputData(samplesL, 0);
+        audioSource.GetOutputData(samplesR, 1);
+
+        Vector3[] positions = new Vector3[samples];
+        Vector3[] old_positions = new Vector3[samples];
+        lineRenderer.GetPositions(old_positions);
+
+        for (int i = 0; i < samples; i++)
         {
-            resolution = Screen.height;
-            pixels = new Color[resolution * resolution];
-            texture.Resize(resolution, resolution);
-        }
-
-        audioSource.GetOutputData(leftSamples, 0);
-        audioSource.GetOutputData(rightSamples, 1);
-
-        Vector2 coordinatesLast = new Vector2(Mathf.RoundToInt((1 + leftSamples[1]) * (resolution - 1) / 2),
-                                              Mathf.RoundToInt((1 + rightSamples[1]) * (resolution - 1) / 2));
-        for (int i = 1; i < samples; i++)
-        {
-            Vector2 coordinates = new Vector2(Mathf.RoundToInt((1 + leftSamples[i]) * (resolution - 1) / 2),
-                                              Mathf.RoundToInt((1 + rightSamples[i]) * (resolution - 1) / 2));
-
-            //pixels[vertical * size + horizontal] += Color.green * degradationCurve.Evaluate((i + 1f) / samples);
-
-            DrawLine(pixels, (int)coordinatesLast.x, (int)coordinatesLast.y, (int)coordinates.x, (int)coordinates.y,
-                     distanceDegredation.Evaluate(Vector2.Distance(coordinates, coordinatesLast) / (resolution * _sqrt2)) * sampleDegredation.Evaluate((i + 1f) / samples));
-
-            coordinatesLast = coordinates;
-        }
-
-        texture.SetPixels(pixels);
-        texture.Apply();
-
-        pixels = new Color[pixels.Length];
-    }
-
-    //Modifed version of http://wiki.unity3d.com/index.php?title=TextureDrawLine
-    void DrawLine(Color[] pixels, int x1, int y1, int x2, int y2, float intensity)
-    {
-        int dy = y2 - y1;
-        int dx = x2 - x1;
-        int stepx, stepy;
-
-        if (dy < 0) { dy = -dy; stepy = -1; }
-        else { stepy = 1; }
-        if (dx < 0) { dx = -dx; stepx = -1; }
-        else { stepx = 1; }
-        dy <<= 1;
-        dx <<= 1;
-
-        float fraction = 0;
-
-        IncreasePixel(pixels, y1 * resolution + x1, intensity);
-        if (dx > dy)
-        {
-            fraction = dy - (dx >> 1);
-            while (Mathf.Abs(x1 - x2) > 1)
+            switch (mode)
             {
-                if (fraction >= 0)
-                {
-                    y1 += stepy;
-                    fraction -= dx;
-                }
-                x1 += stepx;
-                fraction += dy;
-                IncreasePixel(pixels, y1 * resolution + x1, intensity);
+                case Modes.Standard:
+                    positions[i] = new Vector3((float)i / (samples - 1) * 2 - 1, (samplesL[i] + samplesR[i]) / 2);
+                    break;
+                case Modes.LeftRightDeflection:
+                    positions[i] = new Vector3(samplesL[i], samplesR[i]);
+                    break;
             }
         }
-        else
-        {
-            fraction = dx - (dy >> 1);
-            while (Mathf.Abs(y1 - y2) > 1)
-            {
-                if (fraction >= 0)
-                {
-                    x1 += stepx;
-                    fraction -= dy;
-                }
-                y1 += stepy;
-                fraction += dx;
-                IncreasePixel(pixels, y1 * resolution + x1, intensity);
-            }
-        }
+
+        lineRenderer.positionCount = samples;
+        lineRenderer.SetPositions(positions);
     }
 
-    void IncreasePixel(Color[] pixels, int index, float intensity)
+    public override List<Dropdown.OptionData> GetModes()
     {
-        pixels[index].g += intensity;
+        List<Dropdown.OptionData> modes = new List<Dropdown.OptionData>();
 
-        pixels[index].r += Mathf.Clamp(intensity - 1, 0, float.MaxValue) / 2;
-        pixels[index].b += Mathf.Clamp(intensity - 1, 0, float.MaxValue) / 2;
+        foreach (string name in System.Enum.GetNames(typeof(Modes)))
+        {
+            modes.Add(new Dropdown.OptionData(name));
+        }
 
-        pixels[index].r = Mathf.Clamp01(pixels[index].r);
-        pixels[index].g = Mathf.Clamp01(pixels[index].g);
-        pixels[index].b = Mathf.Clamp01(pixels[index].b);
+        return modes;
+    }
+
+    public override void SetMode(Dropdown dropdown)
+    {
+        mode = (Modes)dropdown.value;
     }
 }

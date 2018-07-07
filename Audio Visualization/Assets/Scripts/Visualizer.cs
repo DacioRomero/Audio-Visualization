@@ -1,18 +1,19 @@
 using UnityEngine;
-using FireClaw.Audio;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
-[RequireComponent(typeof(AudioSource))]
-public class Visualizer : MonoBehaviour
+[RequireComponent(typeof(AudioSource)), DisallowMultipleComponent]
+public class Visualizer : ModeChanger
 {
     [SerializeField]
     private FFTWindow fftWindow = FFTWindow.BlackmanHarris;
-    [SerializeField, Range(0f, 1f)]
+    [SerializeField, Range(0, 1)]
     private float smoothValue = 0;
     [SerializeField]
     private float scale = 4;
     [SerializeField, Range(1, 64)]
     private int noteStepsPerCube = 2;
-    
+
     [HideInInspector]
     public GameObject particlePrefab;
 
@@ -36,7 +37,7 @@ public class Visualizer : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
     }
-    
+
     private void Start()
     {
         int transformCount = Mathf.CeilToInt((Mathf.Log(AudioSettings.outputSampleRate / 880, _2root12) + 58) / noteStepsPerCube);
@@ -45,9 +46,8 @@ public class Visualizer : MonoBehaviour
         materials = new Material[transformCount];
 
         Vector3 right = Vector3.right * transformCount;
-        Vector3 gravPos = Vector3.up * Camera.main.transform.position.y;
 
-        for (short i = 0; i < transformCount; i++)
+        for (int i = 0; i < transformCount; i++)
         {
             Color transformColor = Color.Lerp(Color.blue, Color.red, (float)i / (transformCount - 1));
 
@@ -74,7 +74,7 @@ public class Visualizer : MonoBehaviour
                     transforms[i].name = "Sphere " + (i + 1);
 
                     Gravitate grav = transforms[i].gameObject.AddComponent<Gravitate>();
-                    grav.position = gravPos;
+                    grav.position = Vector3.up * Camera.main.transform.position.y;
 
                     materials[i] = transforms[i].GetComponent<Renderer>().material;
                     materials[i].EnableKeyword("_EMISSION");
@@ -101,12 +101,11 @@ public class Visualizer : MonoBehaviour
         float[] samples = new float[8192];
         audioSource.GetSpectrumData(samples, 0, fftWindow);
 
-        float loHz, hiHz = 0;
-        for (short i = 0; i < transforms.Length; i++)
+        float loHz = 20, hiHz = 0;
+        for (int i = 0; i < transforms.Length; i++)
         {
-            loHz = hiHz;
             hiHz = 440 * Mathf.Pow(_2root12, (i + 1) * noteStepsPerCube - 58);
-            float volume = GetRangeVolume(ref samples, loHz, hiHz) * 4;
+            float volume = GetMaxVolInRange(ref samples, loHz, hiHz);
 
             if (mode == Modes.Prisms)
             {
@@ -141,14 +140,28 @@ public class Visualizer : MonoBehaviour
             {
                 materials[i].SetColor("_EmissionColor", Color.Lerp(materials[i].GetColor("_EmissionColor"), materials[i].color * volume, Time.deltaTime * (1 / smoothValue)));
             }
+
+            loHz = hiHz;
         }
     }
 
-    public void SetMode(int _mode)
+    public override List<Dropdown.OptionData> GetModes()
     {
-        mode = (Modes)_mode;
+        List<Dropdown.OptionData> modes = new List<Dropdown.OptionData>();
 
-        for (short i = 0; i < transforms.Length; i++)
+        foreach (string name in System.Enum.GetNames(typeof(Modes)))
+        {
+            modes.Add(new Dropdown.OptionData(name));
+        }
+
+        return modes;
+    }
+
+    public override void SetMode(Dropdown dropdown)
+    {
+        mode = (Modes)dropdown.value;
+
+        for (int i = 0; i < transforms.Length; i++)
         {
             Destroy(transforms[i].gameObject);
         }
@@ -156,30 +169,21 @@ public class Visualizer : MonoBehaviour
         Start();
     }
 
-    private float GetRangeVolume(ref float[] samples, float lowHz, float highHz)
+    private float GetMaxVolInRange(ref float[] samples, float lowHz, float highHz)
     {
-        float max = AudioSettings.outputSampleRate;
+        lowHz = Mathf.Clamp(lowHz, 0, AudioSettings.outputSampleRate);
+        highHz = Mathf.Clamp(highHz, lowHz, AudioSettings.outputSampleRate);
 
-        lowHz = Mathf.Clamp(lowHz, 0, max);
-        highHz = Mathf.Clamp(highHz, lowHz, max);
+        int first = Mathf.FloorToInt(lowHz * samples.Length / AudioSettings.outputSampleRate);
+        int last = Mathf.FloorToInt(highHz * samples.Length / AudioSettings.outputSampleRate);
 
-        int first = Mathf.FloorToInt(lowHz * samples.Length / max);
-        int last = Mathf.FloorToInt(highHz * samples.Length / max);
-
-        float[] dBs = new float[last - first + 1];
+        float max = 0;
 
         for (int i = first; i <= last; i++)
         {
-            dBs[i - first] = AudioUnitConversions.RelToDB(samples[i]);
+            if (samples[i] > max) max = samples[i];
         }
 
-        float volume = AudioUnitConversions.DBToRel(AudioUnitOperations.AddDBs(dBs));
-
-        if (volume > 1)
-        {
-            Debug.Log("Range " + lowHz + " - " + highHz + " returned value greater than one: " + volume);
-        }
-
-        return volume;
+        return max;
     }
 }

@@ -15,7 +15,7 @@ public class Gravitate : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rigidbody.AddForce((transform.position - position).normalized * Physics.gravity.y * 4, ForceMode.Acceleration);
-        rigidbody.mass = transform.localScale.x;
+        rigidbody.velocity += (transform.position - position).normalized * Physics.gravity.y;
+        rigidbody.mass = transform.localScale.sqrMagnitude;
     }
 }

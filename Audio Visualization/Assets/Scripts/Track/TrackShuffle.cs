@@ -125,7 +125,7 @@ public class TrackShuffle : MonoBehaviour
         audioSource.Pause();
     }
 
-    public void UnPause()
+    public void Play()
     {
         paused = false;
         audioSource.UnPause();
